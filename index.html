@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><title>HarmonyOS NEXT</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>
+:root{--ink:#fff;--glass:rgba(255,255,255,.62);--glass2:rgba(255,255,255,.28);--blue:#0a59f7;--txt:#182431}
+*{box-sizing:border-box;margin:0;-webkit-tap-highlight-color:transparent;user-select:none}
+html,body{height:100%;background:#15181d;font-family:"HarmonyOS Sans","HarmonyOS_Sans",Roboto,"Segoe UI",Helvetica,Arial,sans-serif;overflow:hidden}
+body{display:flex;align-items:center;justify-content:center}
+#phone{position:relative;width:min(100vw,calc(100vh*.462));aspect-ratio:9/19.5;max-height:100vh;overflow:hidden;background:#aab4c6;container-type:size}
+@media(min-width:600px){#phone{height:min(94vh,860px);width:auto;border-radius:44px;box-shadow:0 0 0 7px #d9dde3,0 0 0 9px #8e949c,0 30px 80px #000a}}
+.wall{position:absolute;inset:0;background:
+radial-gradient(60% 28% at 12% 34%,#f2a81f 0,#e9a121 40%,transparent 72%),
+radial-gradient(55% 30% at 70% 38%,#f5c555 0,transparent 70%),
+radial-gradient(70% 45% at 40% 62%,#3f8fe0 0,transparent 70%),
+radial-gradient(60% 40% at 90% 70%,#9fb3d6 0,transparent 70%),
+linear-gradient(170deg,#c9d4e6,#8ea3c4 55%,#7f93b8);transition:filter .35s}
+.wall:after{content:"";position:absolute;inset:0;background:radial-gradient(120% 60% at 50% 22%,rgba(255,255,255,.25),transparent 60%)}
+#home{position:absolute;inset:0;transition:transform .35s cubic-bezier(.2,.8,.2,1),filter .35s,opacity .3s}
+#phone.shade #home,#phone.cp #home{filter:blur(18px);transform:scale(.96)}
+#phone.inapp #home{transform:scale(.92);opacity:0}
+.sb{position:absolute;top:0;left:0;right:0;height:5.4cqh;padding:0 6cqw;display:flex;align-items:center;justify-content:space-between;color:#fff;font-size:3.6cqw;font-weight:500;z-index:30;text-shadow:0 0 6px #0003;pointer-events:none}
+.sb .r{display:flex;gap:1.6cqw;align-items:center}
+.sb svg{height:3.4cqw;fill:#fff}
+.cam{position:absolute;top:1.3cqh;left:50%;width:3.2cqw;height:3.2cqw;margin-left:-1.6cqw;border-radius:50%;background:#0b0d12;z-index:31}
+.clock{position:absolute;top:9.5cqh;width:100%;text-align:center;color:#fff}
+.clock b{display:block;font-size:19cqw;font-weight:600;letter-spacing:.5cqw;line-height:1;text-shadow:0 1px 8px #0002}
+.clock span{font-size:3.6cqw;opacity:.9;display:block;margin-top:1.2cqw}
+.pages{position:absolute;top:0;left:0;height:100%;width:200%;display:flex;transition:transform .3s cubic-bezier(.2,.8,.2,1)}
+.pg{width:50%;position:relative;padding:21cqh 5.5cqw 0}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:3.2cqh 0;justify-items:center}
+.ic{display:flex;flex-direction:column;align-items:center;width:100%;cursor:pointer;transition:transform .15s}
+.ic:active{transform:scale(.9)}
+.ic i{display:grid;place-items:center;width:15.4cqw;height:15.4cqw;border-radius:27%;box-shadow:0 2px 6px #0002;overflow:hidden}
+.ic i svg{width:62%;height:62%}
+.ic em{font-style:normal;color:#fff;font-size:3cqw;margin-top:1.2cqw;text-shadow:0 1px 3px #0005;white-space:nowrap}
+.w{border-radius:6cqw;box-shadow:0 2px 10px #0002}
+.wtip{grid-column:1/3;grid-row:1/3;width:35cqw;height:35cqw;background:linear-gradient(150deg,#d8e6f8,#c3d8f3 55%,#e8ecf3);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;font-weight:600;color:#1a2a44;font-size:4cqw;text-align:center;line-height:1.1}
+.wtip:before{content:"";position:absolute;right:-6cqw;top:-6cqw;width:20cqw;height:20cqw;border-radius:50%;background:rgba(255,255,255,.55)}
+.wtip:after{content:"";position:absolute;left:-8cqw;bottom:-10cqw;width:26cqw;height:26cqw;border-radius:50%;background:rgba(120,170,240,.4)}
+.wtip small{position:absolute;bottom:2cqw;left:0;right:0;font-weight:400;font-size:2.4cqw;color:#556;z-index:1}
+.wtip span{position:relative;z-index:1}
+.wstep{grid-column:3/5;width:35cqw;height:11.5cqw;background:#fffffff2;display:flex;align-items:center;justify-content:space-between;padding:0 3cqw 0 4.5cqw;font-size:5.4cqw;font-weight:600;color:#111;border-radius:6cqw;align-self:start}
+.wstep u{width:8cqw;height:8cqw;border-radius:50%;background:#f66d2b;display:grid;place-items:center;text-decoration:none}
+.wstep u svg{width:55%;fill:#fff}
+.lbl{grid-column:3/5;font-size:2.8cqw;color:#fffc;text-align:center;margin-top:-2.4cqh}
+.wide{grid-column:1/5;width:100%;height:20cqw;background:var(--glass);backdrop-filter:blur(20px);display:flex;align-items:center;padding:0 5cqw;gap:3cqw;color:#111}
+.wide b{font-size:8cqw;font-weight:500}.wide div{font-size:3.2cqw;line-height:1.35}
+.dots{position:absolute;bottom:16.8cqh;width:100%;display:flex;justify-content:center;gap:1.6cqw}
+.dots s{width:1.4cqw;height:1.4cqw;border-radius:50%;background:#fff8}.dots s.on{width:4.4cqw;border-radius:1cqw;background:#fff}
+.dock{position:absolute;left:4cqw;right:4cqw;bottom:2.2cqh;height:10cqh;border-radius:8cqw;background:rgba(255,255,255,.18);backdrop-filter:blur(24px);display:flex;justify-content:space-around;align-items:center}
+.dock .ic{width:auto}
+.bar{position:absolute;bottom:.9cqh;left:50%;width:30cqw;height:.9cqw;margin-left:-15cqw;border-radius:2cqw;background:#fff;z-index:40;opacity:.9;box-shadow:0 0 4px #0004}
+.panel{position:absolute;inset:0;z-index:20;padding:7cqh 4.5cqw 0;transform:translateY(-105%);transition:transform .38s cubic-bezier(.2,.8,.2,1);background:rgba(235,238,245,.5);backdrop-filter:blur(40px) saturate(1.4);color:var(--txt);overflow:auto}
+#phone.shade #shade,#phone.cp #cp{transform:none}
+.panel h2{font-size:5cqw;font-weight:600;display:flex;justify-content:space-between;align-items:center;margin:2cqw 1cqw 3cqw}
+.panel h2 span{font-size:3.2cqw;font-weight:400;color:#0a59f7}
+.nt{background:#fffc;border-radius:5cqw;padding:3.5cqw 4cqw;margin-bottom:2.6cqw;font-size:3.3cqw;line-height:1.4}
+.nt b{display:flex;justify-content:space-between;font-weight:600;font-size:3.4cqw}.nt b i{font-style:normal;font-weight:400;opacity:.5;font-size:2.8cqw}
+.nt p{opacity:.75}
+.card{background:#fffc;border-radius:5cqw;padding:3.8cqw 4.2cqw;margin-bottom:2.6cqw;font-size:3.5cqw}
+.card small{display:block;opacity:.55;font-size:2.8cqw;margin-top:.8cqw}
+.tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:2.4cqw;margin-bottom:2.6cqw}
+.tile{aspect-ratio:1;border-radius:5cqw;background:#fffc;display:grid;place-items:center;text-align:center;font-size:2.7cqw;transition:.2s;cursor:pointer;padding:1cqw}
+.tile svg{width:7cqw;height:7cqw;fill:#333;margin-bottom:.6cqw}
+.tile.on{background:var(--blue);color:#fff}.tile.on svg{fill:#fff}
+.sl{background:#fffc;border-radius:5cqw;height:11cqw;margin-bottom:2.6cqw;position:relative;overflow:hidden;display:flex;align-items:center;padding:0 4cqw;font-size:4cqw;touch-action:none}
+.sl div{position:absolute;left:0;top:0;bottom:0;background:#fff;width:60%;box-shadow:2px 0 0 #0a59f755}
+.sl span{position:relative}
+.app{position:absolute;inset:0;z-index:15;background:#f1f3f5;color:var(--txt);transform:scale(.7);opacity:0;pointer-events:none;transition:.3s cubic-bezier(.2,.8,.2,1);padding:9cqh 5cqw 0;border-radius:8cqw}
+#phone.inapp .app{transform:none;opacity:1;pointer-events:auto}
+.app h1{font-size:7cqw;font-weight:700;margin-bottom:5cqw}
+.row{background:#fff;border-radius:4.5cqw;padding:4cqw;margin-bottom:.5cqw;font-size:3.9cqw;display:flex;justify-content:space-between}
+.row:first-of-type{border-radius:4.5cqw 4.5cqw 0 0}.row:last-of-type{border-radius:0 0 4.5cqw 4.5cqw}.row i{font-style:normal;opacity:.45}
+.app,.panel{container-type:inline-size}.app{display:flex;flex-direction:column;padding:8cqh 5cqw 0}#ab{flex:1;overflow:auto;padding-bottom:6cqh}
+.hd{display:flex;align-items:center;gap:3cqw;margin-bottom:4cqw}.hd h1{margin:0}#bk{font-size:8cqw;cursor:pointer;line-height:1}
+.ib{display:flex;gap:2cqw;margin:2cqw 0;align-items:center}.ib input{flex:1;min-width:0;border:0;border-radius:4cqw;padding:3cqw;font-size:3.6cqw;background:#fff;outline:0;user-select:text}.ib button,.mini{border:0;border-radius:4cqw;padding:2.5cqw 4cqw;background:var(--blue);color:#fff;font-size:3.4cqw;cursor:pointer}.mini{padding:1.5cqw 3cqw}.mini:disabled{background:#9aa}
+.big{font-size:9cqw;text-align:center;min-height:12cqw;margin:4cqw 0}.kp{display:grid;grid-template-columns:repeat(3,1fr);gap:3cqw}.kp button{aspect-ratio:1.6;border:0;border-radius:5cqw;background:#fff;font-size:6cqw;cursor:pointer}.kp button:active{background:#dde}
+.call{display:block;margin:4cqw auto;border:0;border-radius:8cqw;padding:3.5cqw 14cqw;background:#19b142;color:#fff;font-size:4.5cqw;cursor:pointer}.call.end{background:#e8344a}
+.th p{max-width:75%;background:#fff;padding:2.5cqw 3.5cqw;border-radius:4cqw;font-size:3.6cqw;margin:1.5cqw 0}.th p.me{margin-left:auto;background:var(--blue);color:#fff}
+#ab video,#ab iframe{width:100%;border:0;border-radius:4cqw;background:#000;height:58cqh;object-fit:cover}.sh{display:block;margin:3cqw auto;width:16cqw;height:16cqw;border-radius:50%;border:1.2cqw solid #fff;background:#e8e8e8;box-shadow:0 0 0 1.2cqw #888;cursor:pointer}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);text-align:center;gap:1cqw;font-size:3.8cqw}.cal u{text-decoration:none;opacity:.5}.cal s{padding:2cqw 0;text-decoration:none;border-radius:50%}.cal s.td{background:var(--blue);color:#fff;border-radius:2.5cqw}
+.ph{display:grid;grid-template-columns:repeat(3,1fr);gap:1cqw}.ph img,.ph div{width:100%;aspect-ratio:1;object-fit:cover;border-radius:2cqw}textarea{width:100%;height:58cqh;border:0;border-radius:4cqw;padding:4cqw;font:inherit;font-size:4cqw;outline:0;resize:none;user-select:text}
+.wp{display:flex;gap:3cqw}.wp s{flex:1;aspect-ratio:.6;border-radius:4cqw;border:.8cqw solid #fff;cursor:pointer}.row{cursor:pointer}
+#phone[data-w="1"] .wall{background:linear-gradient(160deg,#1b2a49,#3b4f8a 55%,#e07a5f)}#phone[data-w="2"] .wall{background:linear-gradient(160deg,#0f766e,#34d399 60%,#fde68a)}
+#tb{position:fixed;top:10px;right:10px;z-index:99;border:0;border-radius:20px;padding:8px 14px;background:#fffd;font:600 13px system-ui;cursor:pointer}
+#phone.tab{aspect-ratio:16/10;width:min(96vw,calc(92vh*1.6));height:auto;max-height:none;border-radius:26px}
+.tab .grid{grid-template-columns:repeat(8,1fr);gap:2.5cqw 0}.tab .pg{padding:20cqh 6cqw 0}.tab .ic i{width:7cqw;height:7cqw}.tab .ic em{font-size:1.25cqw;margin-top:.6cqw}.tab .w{border-radius:2.5cqw}
+.tab .clock{top:6cqh}.tab .clock b{font-size:8cqw}.tab .clock span{font-size:1.6cqw}.tab .sb{font-size:1.5cqw}.tab .sb svg{height:1.5cqw}.tab .cam{width:1.2cqw;height:1.2cqw;margin-left:-.6cqw}
+.tab .wtip{grid-column:1/3;width:16cqw;height:16cqw;font-size:2cqw}.tab .wstep{grid-column:3/6;width:24cqw;height:6cqw;font-size:3cqw;border-radius:3cqw}.tab .wstep u{width:4cqw;height:4cqw}.tab .lbl{display:none}.tab .wide{grid-column:1/9;height:9cqw}
+.tab .dock{left:30%;right:30%;height:11cqh}.tab .dots{bottom:15cqh}.tab .bar{width:12cqw}.tab #shade{right:auto;width:44%}.tab #cp{left:auto;width:44%}.tab .panel{padding:6cqh 2cqw 0}.tab .app{left:18%;right:18%;top:7%;bottom:7%;border-radius:2.5cqw;padding:3cqh 2cqw 0}
+.tab .pg{padding:30cqh 6cqw 0}.tab .grid{gap:3cqw 0}.tab .wtip,.tab .wstep{grid-row:1/3;align-self:center}.tab .sb svg{height:1.5cqw!important}.tab .dock{left:27%;right:27%;height:13cqh;bottom:3cqh}.tab .dock .ic i{width:6cqw;height:6cqw}.tab .bar{bottom:.6cqh}.tab .dots{bottom:20cqh}
+#phone.inapp .sb{color:#111;text-shadow:none}#phone.inapp .sb svg{fill:#111}#phone.inapp .sb rect[stroke]{stroke:#111}
+@media(max-width:599px){#tb{top:9vh;right:8px;padding:5px 10px;font-size:11px}}
+</style></head><body><button id="tb">▭ Tablet</button>
+<div id="phone">
+<div class="wall"></div>
+<div class="cam"></div>
+<div class="sb"><span id="sbt">08:08</span><div class="r">
+<svg viewBox="0 0 24 16"><path d="M1 12h3v3H1zM6 9h3v6H6zM11 6h3v9h-3zM16 2h3v13h-3z"/></svg>
+<svg viewBox="0 0 24 16"><path d="M12 14l3-3a4 4 0 00-6 0zM5 7a10 10 0 0114 0l-2 2a7 7 0 00-10 0zM1 3a15 15 0 0122 0l-2 2a12 12 0 00-18 0z"/></svg>
+<svg viewBox="0 0 28 14" style="height:3.2cqw"><rect x="1" y="1" width="23" height="12" rx="3" fill="none" stroke="#fff" stroke-width="1.5"/><rect x="3" y="3" width="17" height="8" rx="1.5"/><rect x="25" y="5" width="2" height="4" rx="1"/></svg></div></div>
+
+<div id="home">
+<div class="clock"><b id="clk">08:08</b><span id="dt"></span></div>
+<div class="pages" id="pages">
+<div class="pg"><div class="grid">
+<div class="w wtip" data-a="Tips"><span>HarmonyOS<br>NEXT</span><small>Tips</small></div>
+<div class="w wstep" data-a="Health"><span id="stp">7436</span><u><svg viewBox="0 0 24 24"><path d="M13.5 5.5a2 2 0 100-4 2 2 0 000 4zM9.8 8.9L7 23h2.1l1.8-8.1 2.1 2v6h2v-7.5l-2.1-2 .6-3A7.3 7.3 0 0019 13v-2c-1.9 0-3.5-1-4.3-2.4l-1-1.6a2 2 0 00-1.7-1c-.3 0-.6.1-.9.1L6 8.3V13h2V9.6z"/></svg></u></div>
+<div class="lbl">Health</div>
+<div class="ic" data-a="Huawei Video"><i style="background:#ff8a1f"><svg viewBox="0 0 24 24"><path fill="#fff" d="M7 5l12 7-12 7z"/></svg></i><em>Video</em></div>
+<div class="ic" data-a="Music"><i style="background:#fff"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#f0346b"/><path fill="#fff" d="M15 5v9.5a3 3 0 11-1.6-2.6V8l-4 1v7a3 3 0 11-1.6-2.6V7z" transform="translate(1 1) scale(.85)"/></svg></i><em>Music</em></div>
+<div class="ic" data-a="App Gallery"><i style="background:#e8344a"><svg viewBox="0 0 24 24"><path fill="none" stroke="#fff" stroke-width="2" d="M6 11a6 6 0 0112 0"/><text x="12" y="20" font-size="6.5" fill="#fff" text-anchor="middle" font-weight="700">App</text></svg></i><em>App Gallery</em></div>
+<div class="ic" data-a="Themes"><i style="background:#fff"><svg viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="7" rx="1.5" fill="#3b82f6"/><path d="M4 6h16" stroke="#f43f5e" stroke-width="2"/><path fill="#222" d="M10 10h4v5l-1 7h-2l-1-7z"/></svg></i><em>Themes</em></div>
+<div class="ic" data-a="Gallery"><i style="background:#fff"><svg viewBox="0 0 24 24"><g transform="translate(12 12)"><ellipse rx="3.4" ry="6" cy="-5" fill="#fbbf24"/><ellipse rx="3.4" ry="6" cy="-5" fill="#f87171" transform="rotate(60)"/><ellipse rx="3.4" ry="6" cy="-5" fill="#a78bfa" transform="rotate(120)"/><ellipse rx="3.4" ry="6" cy="-5" fill="#38bdf8" transform="rotate(180)"/><ellipse rx="3.4" ry="6" cy="-5" fill="#34d399" transform="rotate(240)"/><ellipse rx="3.4" ry="6" cy="-5" fill="#fb923c" transform="rotate(300)"/></g></svg></i><em>Gallery</em></div>
+<div class="ic" data-a="Settings"><i style="background:#e4e8ee"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#4b5563"/><circle cx="12" cy="12" r="7" fill="none" stroke="#e5e7eb" stroke-width="1.3"/><circle cx="12" cy="12" r="2.6" fill="#e5e7eb"/><path stroke="#e5e7eb" stroke-width="1.6" d="M12 9.4V5M9.8 13.3L6 15.5M14.2 13.3L18 15.5"/></svg></i><em>Settings</em></div>
+</div></div>
+<div class="pg"><div class="grid">
+<div class="w wide" style="grid-column:1/5"><b id="wt">24°</b><div>Clear · Dallas<br>Tap to open weather</div></div>
+<div class="ic" data-a="Calendar"><i style="background:#fff"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="17" rx="3" fill="#2f6fe8"/><rect x="3" y="4" width="18" height="5" rx="2" fill="#1d4fc4"/><g fill="#fff"><circle cx="8" cy="12" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="16" cy="12" r="1"/><circle cx="8" cy="16" r="1"/><circle cx="12" cy="16" r="1"/><circle cx="16" cy="16" r="1"/></g></svg></i><em>Calendar</em></div>
+<div class="ic" data-a="Clock"><i style="background:#f4f6fa"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#fff" stroke="#cbd2dc"/><path d="M12 6v6l4 2" stroke="#222" stroke-width="1.6" fill="none"/></svg></i><em>Clock</em></div>
+<div class="ic" data-a="Files"><i style="background:linear-gradient(#ffd45c,#f5a623)"><svg viewBox="0 0 24 24"><path fill="#fff9" d="M3 7a2 2 0 012-2h5l2 2h7a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg></i><em>Files</em></div>
+<div class="ic" data-a="Notepad"><i style="background:#fff"><svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2" fill="#fbbf24"/><path d="M8 9h8M8 13h8M8 17h5" stroke="#fff" stroke-width="1.6"/></svg></i><em>Notepad</em></div>
+</div></div>
+</div>
+<div class="dots" id="dots"><s class="on"></s><s></s></div>
+<div class="dock">
+<div class="ic" data-a="Phone"><i style="background:linear-gradient(#34d058,#19b142)"><svg viewBox="0 0 24 24"><path fill="#fff" d="M6.6 10.8a15 15 0 006.6 6.6l2.2-2.2a1 1 0 011-.25 11 11 0 003.5.56 1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.2.2 2.4.56 3.5a1 1 0 01-.25 1z"/></svg></i></div>
+<div class="ic" data-a="Messages"><i style="background:linear-gradient(#3b8cff,#1966f0)"><svg viewBox="0 0 24 24"><path fill="#fff" d="M12 3C6.5 3 2 6.6 2 11c0 2.5 1.4 4.7 3.6 6.2L5 21l3.9-2c1 .3 2 .4 3.1.4 5.5 0 10-3.6 10-8S17.500 3 12 3z"/></svg></i></div>
+<div class="ic" data-a="Browser"><i style="background:#fff"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#1c7ef0"/><path d="M2 12h20M12 2c4 4 4 16 0 20M12 2c-4 4-4 16 0 20" stroke="#fff" stroke-width="1.2" fill="none"/></svg></i></div>
+<div class="ic" data-a="Camera"><i style="background:#fff"><svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="14" rx="3" fill="#333"/><circle cx="12" cy="13" r="4.6" fill="#8a929e"/><circle cx="12" cy="13" r="3" fill="#222"/><rect x="8" y="3.5" width="8" height="3" rx="1" fill="#333"/></svg></i></div>
+</div></div>
+
+<div class="panel" id="shade"><h2>Notifications <span id="clr">Clear all</span></h2><div id="nts">
+<div class="nt"><b>Messages<i>now</i></b><p>Your HarmonyOS NEXT update is ready to install.</p></div>
+<div class="nt"><b>Health<i>8:02</i></b><p>7,436 steps today. Keep it up!</p></div>
+<div class="nt"><b>Music<i>7:40</i></b><p>FreeBuds Pro connected.</p></div></div></div>
+
+<div class="panel" id="cp"><h2>Control Panel</h2>
+<div class="card" style="display:flex;justify-content:space-between;align-items:center"><div>Super Device<small>Choose where audio plays</small></div><span style="color:var(--blue)">FreeBuds Pro</span></div>
+<div class="tiles" id="tiles"></div>
+<div class="sl"><div></div><span>☀️ Brightness</span></div><div class="sl"><div style="width:40%"></div><span>🔊 Volume</span></div>
+<div class="nt" style="text-align:center;opacity:.7">Swipe up to close</div></div>
+
+<div class="app" id="app"><div class="hd"><b id="bk">‹</b><h1 id="at"></h1></div><div id="ab"></div></div>
+<div class="bar" id="bar"></div>
+</div>
+<script>
+const $=s=>document.querySelector(s),P=$('#phone');
+const D=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+function tick(){const d=new Date(),t=String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');
+$('#clk').textContent=$('#sbt').textContent=t;$('#dt').textContent=(d.getMonth()+1)+'/'+d.getDate()+' '+D[d.getDay()]+'  24°C ☀️'}
+tick();setInterval(tick,5000);
+const T=[['Wi-Fi',1,'M12 18l2-2a3 3 0 00-4 0zM6 11a9 9 0 0112 0l-1.6 1.6a6.700 6.700 0 00-8.800 0zM2 7a14 14 0 0120 0l-1.600 1.600a11.500 11.500 0 00-16.800 0z'],['Bluetooth',1,'M11 3v7L7 6 5.500 7.500 10.500 12.500l-5 5L7 19l4-4v6l6-6-4.500-4.500L17 6zm2 3.800L14.700 8.500 13 10.200zM13 14.800l1.700 1.700L13 18.200z'],['Mobile data',1,'M3 18h3v3H3zM8 14h3v7H8zM13 10h3v11h-3zM18 5h3v16h-3z'],['Torch',0,'M8 2h8v4l-2 3v13h-4V9L8 6z'],['Silent',0,'M12 3L7 8H3v8h4l5 5zM16 9l5 6M21 9l-5 6'],['Rotate',1,'M12 5V1L7 6l5 5V7a5 5 0 015 5 5 5 0 01-.7 2.500l1.500 1.500A7 7 0 0012 5zM7 12a5 5 0 01.7-2.500L6.200 8A7 7 0 0012 19v4l5-5-5-5v4a5 5 0 01-5-5z'],['Airplane',0,'M21 16v-2l-8-5V3.500a1.500 1.500 0 00-3 0V9l-8 5v2l8-2.500V19l-2 1.500V22l3.500-1 3.500 1v-1.500L13 19v-5.500z'],['Location',1,'M12 2a7 7 0 00-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 00-7-7zm0 9.500A2.500 2.500 0 1112 6.500a2.500 2.500 0 010 5z']];
+$('#tiles').innerHTML=T.map(t=>`<div class="tile ${t[1]?'on':''}"><div><svg viewBox="0 0 24 24"><path d="${t[2]}"/></svg><br>${t[0]}</div></div>`).join('');
+document.querySelectorAll('.tile').forEach(e=>e.onclick=()=>e.classList.toggle('on'));
+$('#clr').onclick=()=>$('#nts').innerHTML='<div class="nt" style="text-align:center;opacity:.6">No notifications</div>';
+const close=()=>{cleanup();P.classList.remove('shade','cp','inapp')};
+let hs;try{hs=localStorage.getItem('hn')||''}catch(e){hs=''}
+const S={photos:[],iv:0,st:null,s:7436,n:hs,t:{Mom:[[0,'Did you get the update?']],Alex:[[0,'Dinner at 7?']],'Huawei Care':[[0,'Welcome to HarmonyOS NEXT']]}};
+const esc=s=>s.replace(/</g,'&lt;'),tls=()=>document.querySelectorAll('.tile');
+function cleanup(){clearInterval(S.iv);S.iv=0;S.st&&S.st.getTracks().forEach(t=>t.stop());S.st=null}
+const L=(b,items,go,done)=>{b.innerHTML=items.map((x,i)=>`<div class=row><span>${x}</span><span><button class=mini>${go}</button></span></div>`).join('');b.querySelectorAll('.mini').forEach(k=>k.onclick=()=>{k.textContent=done;k.disabled=1})};
+const WP=b=>{b.insertAdjacentHTML('beforeend','<h3 style="margin:4cqw 0">Wallpaper</h3><div class=wp>'+['linear-gradient(170deg,#c9d4e6,#f2a81f)','linear-gradient(160deg,#1b2a49,#e07a5f)','linear-gradient(160deg,#0f766e,#fde68a)'].map((g,i)=>`<s data-w=${i} style="background:${g}"></s>`).join('')+'</div>');b.querySelectorAll('.wp s').forEach(s=>s.onclick=()=>P.dataset.w=s.dataset.w)};
+const A={
+Phone(b){b.innerHTML='<div class=big id=nm></div><div class=kp>'+[1,2,3,4,5,6,7,8,9,'*',0,'#'].map(k=>`<button>${k}</button>`).join('')+'</div><button id=cl class=call>Call</button>';let n='';const d=$('#nm');d.onclick=()=>{n=n.slice(0,-1);d.textContent=n};b.querySelectorAll('.kp button').forEach(k=>k.onclick=()=>{n+=k.textContent;d.textContent=n});$('#cl').onclick=function(){if(S.iv){cleanup();this.textContent='Call';this.classList.remove('end');d.textContent=n;return}let s=0;this.textContent='End';this.classList.add('end');S.iv=setInterval(()=>d.textContent='Calling '+(n||'…')+' '+Math.floor(s/60)+':'+String(s++%60).padStart(2,'0'),1000);d.textContent='Calling…'}},
+Messages(b){const T=S.t;let cur;const list=()=>{cur=0;b.innerHTML=Object.keys(T).map(k=>`<div class=row data-k="${k}"><span>${k}<br><small>${esc(T[k][T[k].length-1][1])}</small></span><i>›</i></div>`).join('');b.querySelectorAll('.row').forEach(r=>r.onclick=()=>th(r.dataset.k))};const th=k=>{cur=k;b.innerHTML=`<div class=ib><button id=bl>‹ Chats</button><b>${k}</b></div><div class=th>${T[k].map(m=>`<p class="${m[0]?'me':''}">${esc(m[1])}</p>`).join('')}</div><div class=ib><input id=mi placeholder=Message><button id=ms>Send</button></div>`;$('#bl').onclick=list;const go=()=>{const v=$('#mi').value.trim();if(!v)return;T[k].push([1,v]);th(k);setTimeout(()=>{T[k].push([0,'👍 Got it!']);cur==k&&$('#mi')&&th(k)},900)};$('#ms').onclick=go;$('#mi').onkeydown=e=>e.key=='Enter'&&go()};list()},
+Browser(b){const u='https://en.wikipedia.org/wiki/HarmonyOS';b.innerHTML=`<div class=ib><input id=u value="${u}"><button id=g>Go</button></div><iframe id=f src="${u}"></iframe><small>Some sites block embedding.</small>`;const go=()=>{let v=$('#u').value.trim();if(!/^https?:/.test(v))v=v.includes('.')&&!v.includes(' ')?'https://'+v:'https://en.wikipedia.org/w/index.php?search='+encodeURIComponent(v);$('#u').value=v;$('#f').src=v};$('#g').onclick=go;$('#u').onkeydown=e=>e.key=='Enter'&&go()},
+Camera(b){b.innerHTML='<video id=v autoplay playsinline muted></video><button class=sh id=sh></button><p id=cm style="text-align:center"></p>';navigator.mediaDevices&&navigator.mediaDevices.getUserMedia({video:true}).then(s=>{if(!$('#v')){s.getTracks().forEach(t=>t.stop());return}S.st=s;$('#v').srcObject=s}).catch(()=>($('#cm')||{}).textContent='Camera unavailable – shutter saves a simulated shot');$('#sh').onclick=()=>{const v=$('#v'),c=document.createElement('canvas');c.width=v.videoWidth||320;c.height=v.videoHeight||240;const x=c.getContext('2d');if(v.videoWidth)x.drawImage(v,0,0);else{x.fillStyle='hsl('+Math.random()*360+',60%,60%)';x.fillRect(0,0,c.width,c.height)}S.photos.unshift(c.toDataURL('image/jpeg',.7));$('#cm').textContent='Saved to Gallery ('+S.photos.length+')'}},
+Gallery(b){b.innerHTML='<div class=ph>'+S.photos.map(p=>`<img src="${p}">`).join('')+[200,30,300,160,260,340].map(h=>`<div style="background:linear-gradient(135deg,hsl(${h},70%,65%),hsl(${h+50},70%,50%))"></div>`).join('')+'</div>'},
+Calendar(b){let d=new Date();const r=()=>{const y=d.getFullYear(),m=d.getMonth(),f=new Date(y,m,1).getDay(),n=new Date(y,m+1,0).getDate(),t=new Date();let h=`<div class=ib><button id=pv>‹</button><b style="flex:1;text-align:center">${d.toLocaleString('en',{month:'long'})} ${y}</b><button id=nx>›</button></div><div class=cal>`+D.map(x=>`<u>${x[0]}</u>`).join('');for(let i=0;i<f;i++)h+='<s></s>';for(let i=1;i<=n;i++)h+=`<s class="${i==t.getDate()&&m==t.getMonth()&&y==t.getFullYear()?'td':''}">${i}</s>`;b.innerHTML=h+'</div>';$('#pv').onclick=()=>{d=new Date(y,m-1,1);r()};$('#nx').onclick=()=>{d=new Date(y,m+1,1);r()}};r()},
+Clock(b){let e=0,run=0,st=0;b.innerHTML='<div class=big id=wc style="font-size:7cqw"></div><div class=big id=sw>00:00.0</div><div class=ib><button id=a style="flex:1">Start</button><button id=z style="flex:1">Reset</button></div>';const f=()=>{const t=e+(run?performance.now()-st:0);return String(Math.floor(t/60000)).padStart(2,'0')+':'+(t/1000%60).toFixed(1).padStart(4,'0')};S.iv=setInterval(()=>{$('#sw').textContent=f();$('#wc').textContent=new Date().toLocaleTimeString()},100);$('#a').onclick=function(){if(run){e+=performance.now()-st;run=0;this.textContent='Start'}else{st=performance.now();run=1;this.textContent='Pause'}};$('#z').onclick=()=>{e=0;st=performance.now()}},
+Files(b){b.innerHTML=['Documents','Downloads','Pictures ('+S.photos.length+')','Notes'].map(x=>`<div class=row>${x}<i>›</i></div>`).join('')},
+Notepad(b){b.innerHTML='<textarea id=ta placeholder="Write a note…"></textarea>';const t=$('#ta');t.value=S.n;t.oninput=()=>{S.n=t.value;try{localStorage.setItem('hn',S.n)}catch(e){}}},
+Settings(b){const row=(n,i)=>`<div class=row data-i=${i}>${n}<i>${tls()[i].classList.contains('on')?'On':'Off'}</i></div>`;b.innerHTML=row('Wi-Fi',0)+row('Bluetooth',1)+row('Mobile data',2)+'<div class=row id=dm>Switch device mode<i>Phone ⇄ Tablet</i></div><div class=row>About<i>HarmonyOS NEXT 5.0</i></div>';b.querySelectorAll('[data-i]').forEach(r=>r.onclick=()=>{tls()[r.dataset.i].click();r.lastChild.textContent=tls()[r.dataset.i].classList.contains('on')?'On':'Off'});$('#dm').onclick=()=>$('#tb').click();WP(b)},
+Themes(b){WP(b)},
+Music(b){const N=[261,294,330,392,330,294];b.innerHTML='<div class=big>♪ Harmony</div><button id=pl class=call>Play</button>';let ctx,k=0;$('#pl').onclick=function(){if(S.iv){cleanup();this.textContent='Play';return}ctx=ctx||new AudioContext();this.textContent='Pause';S.iv=setInterval(()=>{const o=ctx.createOscillator(),g=ctx.createGain();o.frequency.value=N[k++%6];g.gain.value=.08;o.connect(g);g.connect(ctx.destination);o.start();o.stop(ctx.currentTime+.3)},400)}},
+Health(b){const r=()=>{b.innerHTML=`<div class=big style="font-size:14cqw">${S.s}</div><p style="text-align:center">steps today</p><button class=call id=ad>+500 steps</button>`;$('#ad').onclick=()=>{S.s+=500;$('#stp').textContent=S.s;r()}};r()},
+'App Gallery'(b){L(b,['WeChat','Petal Maps','Meituan','Huawei Reader'],'Get','Installed')},
+'Huawei Video'(b){L(b,['Nature in 4K','Space Odyssey','City Lights'],'Play','Playing…')},
+Tips(b){b.innerHTML=['Swipe down from the left edge for notifications','Swipe down from the right edge for Control Panel','Swipe up to go home'].map(x=>`<div class=row>${x}</div>`).join('')}};
+document.querySelectorAll('[data-a]').forEach(e=>e.onclick=()=>{cleanup();const n=e.dataset.a,b=$('#ab');$('#at').textContent=n;b.innerHTML='';(A[n]||(x=>x.innerHTML='<div class=row>Nothing here yet</div>'))(b);P.classList.add('inapp')});
+$('#bk').onclick=close;
+$('#tb').onclick=function(){close();P.classList.toggle('tab');this.textContent=P.classList.contains('tab')?'📱 Phone':'▭ Tablet'};
+$('#bar').onclick=close;
+document.querySelectorAll('.sl').forEach((el,i)=>{const set=e=>{const r=el.getBoundingClientRect(),v=Math.min(1,Math.max(0,(e.clientX-r.left)/r.width));el.firstChild.style.width=v*100+'%';if(!i)P.style.filter='brightness('+(.4+v).toFixed(2)+')'};el.onpointerdown=e=>{el.setPointerCapture(e.pointerId);set(e)};el.onpointermove=e=>{if(el.hasPointerCapture(e.pointerId))set(e)}});
+let pg=0;const setPg=n=>{pg=n;$('#pages').style.transform=`translateX(${-50*n}%)`;document.querySelectorAll('#dots s').forEach((s,i)=>s.classList.toggle('on',i==n))};
+let sx,sy,st=false;
+P.addEventListener('pointerdown',e=>{const r=P.getBoundingClientRect();sx=e.clientX-r.left;sy=e.clientY-r.top;st=1;P._w=r.width;P._h=r.height});
+P.addEventListener('pointerup',e=>{if(!st)return;st=0;const r=P.getBoundingClientRect(),dx=e.clientX-r.left-sx,dy=e.clientY-r.top-sy;
+if(Math.abs(dy)>50&&Math.abs(dy)>Math.abs(dx)){
+if(dy>0&&sy<P._h*.2&&!P.classList.contains('inapp')){P.classList.remove('shade','cp');P.classList.add(sx<P._w/2?'shade':'cp')}
+else if(dy<0&&(sy>P._h*.5||P.classList.contains('shade')||P.classList.contains('cp')))close();}
+else if(Math.abs(dx)>50&&!P.classList.contains('shade')&&!P.classList.contains('cp')&&!P.classList.contains('inapp'))setPg(dx<0?1:0)});
+</script></body></html>
